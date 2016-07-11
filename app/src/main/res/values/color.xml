@@ -2,4 +2,8 @@
 <resources>
     <color name = "colorPrimaryDark">#424242</color>
     <color name = "windowBackground">#424242</color>
+
+    <!--color in activity_main-->
+    <color name = "mainItemBackgroundColor">#757575</color>
+    <color name = "mainItemTextColor">#F5F5F5</color>
 </resources>
