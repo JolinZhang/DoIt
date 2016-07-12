@@ -2,18 +2,37 @@ package com.example.jonelezhang.doit;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class List extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class List_Menu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-    }
+        List<ListData> data = fill_with_data();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
+        //get instance of list adapter
+        List_Recycler_View_Adapter adapter = new List_Recycler_View_Adapter(data,getApplication());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
+    public List<ListData> fill_with_data() {
+
+        List<ListData> data = new ArrayList<>();
+        data.add(new ListData("food","0"));
+        data.add(new ListData("fruit","1"));
+        data.add(new ListData("homework","2"));
+        return data;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

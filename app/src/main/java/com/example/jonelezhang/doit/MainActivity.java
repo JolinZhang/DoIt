@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         main_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity( new Intent(MainActivity.this, List.class));
+                startActivity( new Intent(MainActivity.this, List_Menu.class));
             }
         });
     }
