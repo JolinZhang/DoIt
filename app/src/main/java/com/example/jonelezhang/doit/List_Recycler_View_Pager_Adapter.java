@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class List_Recycler_View_Pager_Adapter extends PagerAdapter {
     private Context context;
-    private List<ListData> list;
+    private ListData list;
     private LayoutInflater inflater;
 
-    public List_Recycler_View_Pager_Adapter(Context context,List<ListData> listData){
+    public List_Recycler_View_Pager_Adapter(Context context, ListData listData){
         super();
         this.context = context;
         this.list = listData;
@@ -29,6 +29,8 @@ public class List_Recycler_View_Pager_Adapter extends PagerAdapter {
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.list_recyclerview_viewpager, container, false);
         TextView title = (TextView) layout.findViewById(R.id.list_item_title);
         TextView count = (TextView) layout.findViewById(R.id.list_item_count);
+        title.setText(list.title);
+        count.setText(list.count);
         container.addView(layout);
         return layout;
     }
