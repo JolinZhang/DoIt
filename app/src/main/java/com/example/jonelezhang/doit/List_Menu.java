@@ -19,14 +19,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class List_Menu extends AppCompatActivity implements OnTouchListener {
+public class List_Menu extends AppCompatActivity {
     List_Recycler_View_Adapter adapter;
-    //variables in on touch event
-    private float x1;
-    private float y1;
-    private float x2;
-    private float y2;
-    private float dy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +33,7 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         adapter = new List_Recycler_View_Adapter(data,getApplication());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setOnTouchListener(this);
+
         //set animation for add recycler view item
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
@@ -47,6 +42,7 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         //set recyclerView listener for recyclerView item
         recyclerView.setOnTouchListener(new OnSwipeTouchListener(this, recyclerView));
     }
+
     //implement  OnSwipeTouchListener
     public class OnSwipeTouchListener implements OnTouchListener {
         RecyclerView mrecyclerView;
@@ -58,6 +54,7 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
             mcontext = context;
             this.mrecyclerView = recyclerView;
         }
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return mgestureDetector.onTouchEvent(event);
@@ -67,12 +64,15 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
             //Do what you want after swiping left to right
             Toast.makeText(getApplicationContext(), "left to right ", Toast.LENGTH_SHORT).show();
         }
+
         public void onSwipeLeft(int pos) {
             //Do what you want after swiping right to left
             Toast.makeText(getApplicationContext(), "right to left ", Toast.LENGTH_SHORT).show();
         }
+        
         private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
             private static final int SWIPE_THRESHOLD = 2;
+            private static final int SWIPE_Vertical_THRESHOLD = 1;
             @Override
             public boolean onDown(MotionEvent e) {
                 return true;
@@ -92,6 +92,10 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
                     else
                         onSwipeLeft(getPosition(e1));
                     return true;
+                }
+                if(Math.abs(distanceY) > Math.abs(distanceX)
+                        && Math.abs(distanceX) > SWIPE_Vertical_THRESHOLD){
+                     adapter.insert(0, new ListData("", ""));
                 }
                 return false;
             }
@@ -127,35 +131,5 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    // screen touch action
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int action = MotionEventCompat.getActionMasked(event);
-        switch(action) {
-            case (MotionEvent.ACTION_DOWN) :
-                x1 = event.getX();
-                y1 = event.getY();
-                break;
-            case (MotionEvent.ACTION_UP) :
-                x2 = event.getX();
-                y2 = event.getY();
-                dy = y2-y1;
-                if(dy>10) adapter.insert(0, new ListData("", ""));
-                break;
-//            case (MotionEvent.ACTION_MOVE) :
-//                Toast.makeText(getApplicationContext(), "Action was MOVE ", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case (MotionEvent.ACTION_CANCEL) :
-//                Toast.makeText(getApplicationContext(), "Action was CANCEL ", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case (MotionEvent.ACTION_OUTSIDE) :
-//                Log.d("DEBUG_TAG","Movement occurred outside bounds " +
-//                        "of current screen element");
-//                return true;
-            default :
-                return super.onTouchEvent(event);
-        }
-        return true;
     }
 }
