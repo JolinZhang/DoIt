@@ -35,6 +35,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
         List_Recycler_View_Pager_Adapter pagerAdapter = new List_Recycler_View_Pager_Adapter(context,list.get(position));
         holder.viewPager.setAdapter(pagerAdapter);
+        holder.viewPager.setCurrentItem(1);
 //        holder.viewPager.setClipToPadding(false);
     }
 
@@ -53,7 +54,6 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     public void insert(int position, ListData listData){
         list.add(position, listData);
         notifyItemInserted(position);
-
     }
 
     // Remove a RecyclerView item containing a specified Data object

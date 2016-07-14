@@ -75,14 +75,14 @@ public class List_Menu extends AppCompatActivity {
                                    float velocityX, float velocityY) {
                 float distanceX = e2.getX() - e1.getX();
                 float distanceY = e2.getY() - e1.getY();
-                if (Math.abs(distanceX) > Math.abs(distanceY)
-                        && Math.abs(distanceX) > SWIPE_THRESHOLD) {
-                    if (distanceX > 0)
-                        onSwipeRight(getPosition(e1));
-                    else
-                        onSwipeLeft(getPosition(e1));
-                    return true;
-                }
+//                if (Math.abs(distanceX) > Math.abs(distanceY)
+//                        && Math.abs(distanceX) > SWIPE_THRESHOLD) {
+//                    if (distanceX > 0)
+//                        onSwipeRight(getPosition(e1));
+//                    else
+//                        onSwipeLeft(getPosition(e1));
+//                    return true;
+//                }
                 if(Math.abs(distanceY) > Math.abs(distanceX)
                         && distanceY > SWIPE_Vertical_THRESHOLD){
                         onSwipeItemDown();
