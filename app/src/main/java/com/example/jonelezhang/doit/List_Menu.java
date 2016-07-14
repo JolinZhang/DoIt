@@ -60,16 +60,6 @@ public class List_Menu extends AppCompatActivity {
             return mgestureDetector.onTouchEvent(event);
         }
 
-        public void onSwipeRight(int pos) {
-            //Do what you want after swiping left to right
-            Toast.makeText(getApplicationContext(), "left to right ", Toast.LENGTH_SHORT).show();
-        }
-
-        public void onSwipeLeft(int pos) {
-            //Do what you want after swiping right to left
-            Toast.makeText(getApplicationContext(), "right to left ", Toast.LENGTH_SHORT).show();
-        }
-        
         private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
             private static final int SWIPE_THRESHOLD = 2;
             private static final int SWIPE_Vertical_THRESHOLD = 1;
@@ -94,10 +84,24 @@ public class List_Menu extends AppCompatActivity {
                     return true;
                 }
                 if(Math.abs(distanceY) > Math.abs(distanceX)
-                        && Math.abs(distanceX) > SWIPE_Vertical_THRESHOLD){
-                     adapter.insert(0, new ListData("", ""));
+                        && distanceY > SWIPE_Vertical_THRESHOLD){
+                        onSwipeItemDown();
                 }
                 return false;
+            }
+
+            public void onSwipeRight(int pos) {
+                //Do what you want after swiping left to right
+                Toast.makeText(getApplicationContext(), "left to right ", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeLeft(int pos) {
+                //Do what you want after swiping right to left
+                Toast.makeText(getApplicationContext(), "right to left ", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeItemDown(){
+                adapter.insert(0, new ListData("", ""));
             }
         }
 
