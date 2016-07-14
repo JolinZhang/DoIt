@@ -33,9 +33,9 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     @Override
     public void onBindViewHolder(List_View_Holder holder, int position) {
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
-        holder.title.setText(list.get(position).title);
-        holder.count.setText(list.get(position).count);
-
+        List_Recycler_View_Pager_Adapter pagerAdapter = new List_Recycler_View_Pager_Adapter(context,list);
+        holder.viewPager.setAdapter(pagerAdapter);
+        holder.viewPager.setClipToPadding(false);
     }
 
     @Override
