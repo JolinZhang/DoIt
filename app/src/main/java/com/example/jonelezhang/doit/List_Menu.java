@@ -1,11 +1,14 @@
 package com.example.jonelezhang.doit;
 
+import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,11 +21,17 @@ import java.util.List;
 
 public class List_Menu extends AppCompatActivity implements OnTouchListener {
     List_Recycler_View_Adapter adapter;
+    //variables in on touch event
+    private float x1;
+    private float y1;
+    private float x2;
+    private float y2;
+    private float dy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
+        //get instance of ListData ad RecyclerView
         List<ListData> data = fill_with_data();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
         //get instance of list adapter
@@ -30,17 +39,74 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setOnTouchListener(this);
+        //set animation for add recycler view item
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+        //set recyclerView listener for recyclerView item
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(this, recyclerView));
     }
+    //implement  OnSwipeTouchListener
+    public class OnSwipeTouchListener implements OnTouchListener {
+        RecyclerView mrecyclerView;
+        private GestureDetector mgestureDetector;
+        private Context mcontext;
 
-    //initial listData
+        public OnSwipeTouchListener(Context context, RecyclerView recyclerView) {
+            mgestureDetector = new GestureDetector(context, new GestureListener());
+            mcontext = context;
+            this.mrecyclerView = recyclerView;
+        }
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return mgestureDetector.onTouchEvent(event);
+        }
+
+        public void onSwipeRight(int pos) {
+            //Do what you want after swiping left to right
+            Toast.makeText(getApplicationContext(), "left to right ", Toast.LENGTH_SHORT).show();
+        }
+        public void onSwipeLeft(int pos) {
+            //Do what you want after swiping right to left
+            Toast.makeText(getApplicationContext(), "right to left ", Toast.LENGTH_SHORT).show();
+        }
+        private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
+            private static final int SWIPE_THRESHOLD = 2;
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+            private int getPosition(MotionEvent e1) {
+                return mrecyclerView.indexOfChild( mrecyclerView.findChildViewUnder( e1.getX(),  e1.getY()));
+            }
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2,
+                                   float velocityX, float velocityY) {
+                float distanceX = e2.getX() - e1.getX();
+                float distanceY = e2.getY() - e1.getY();
+                if (Math.abs(distanceX) > Math.abs(distanceY)
+                        && Math.abs(distanceX) > SWIPE_THRESHOLD) {
+                    if (distanceX > 0)
+                        onSwipeRight(getPosition(e1));
+                    else
+                        onSwipeLeft(getPosition(e1));
+                    return true;
+                }
+                return false;
+            }
+        }
+
+    }
+    //set data for listData
     public List<ListData> fill_with_data() {
-
         List<ListData> data = new ArrayList<>();
         data.add(new ListData("food","0"));
         data.add(new ListData("fruit","1"));
-        data.add(new ListData("homework","2"));
+        data.add(new ListData("homework", "2"));
         return data;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -62,22 +128,24 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
 
         return super.onOptionsItemSelected(item);
     }
-
+    // screen touch action
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int action = MotionEventCompat.getActionMasked(event);
-
         switch(action) {
-//            case (MotionEvent.ACTION_DOWN) :
-//                Toast.makeText(getApplicationContext(), "Action was down ", Toast.LENGTH_SHORT).show();
-//                return true;
+            case (MotionEvent.ACTION_DOWN) :
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case (MotionEvent.ACTION_UP) :
+                x2 = event.getX();
+                y2 = event.getY();
+                dy = y2-y1;
+                if(dy>10) adapter.insert(0, new ListData("", ""));
+                break;
 //            case (MotionEvent.ACTION_MOVE) :
 //                Toast.makeText(getApplicationContext(), "Action was MOVE ", Toast.LENGTH_SHORT).show();
 //                return true;
-            case (MotionEvent.ACTION_UP) :
-                adapter.insert(0,new ListData("",""));
-//                Toast.makeText(getApplicationContext(), "Action was UP ", Toast.LENGTH_SHORT).show();
-                return true;
 //            case (MotionEvent.ACTION_CANCEL) :
 //                Toast.makeText(getApplicationContext(), "Action was CANCEL ", Toast.LENGTH_SHORT).show();
 //                return true;
@@ -88,5 +156,6 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
             default :
                 return super.onTouchEvent(event);
         }
+        return true;
     }
 }
