@@ -37,6 +37,7 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         adapter = new List_Recycler_View_Adapter(data,getApplication());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //add new item  touch listener
         recyclerView.setOnTouchListener(this);
     }
 
