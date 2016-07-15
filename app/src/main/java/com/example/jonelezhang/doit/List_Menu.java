@@ -18,6 +18,14 @@ import java.util.List;
 
 public class List_Menu extends AppCompatActivity implements OnTouchListener {
     List_Recycler_View_Adapter adapter;
+    //variables in on touch event
+    private float x1;
+    private float y1;
+    private float x2;
+    private float y2;
+    private float dy;
+    private float dx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +49,7 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         data.add(new ListData("homework","2"));
         return data;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -66,27 +75,25 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int action = MotionEventCompat.getActionMasked(event);
+        final int SWIPE_THRESHOLD = 2;
 
         switch(action) {
-//            case (MotionEvent.ACTION_DOWN) :
-//                Toast.makeText(getApplicationContext(), "Action was down ", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case (MotionEvent.ACTION_MOVE) :
-//                Toast.makeText(getApplicationContext(), "Action was MOVE ", Toast.LENGTH_SHORT).show();
-//                return true;
+            case (MotionEvent.ACTION_DOWN) :
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
             case (MotionEvent.ACTION_UP) :
-                adapter.insert(0,new ListData("",""));
-//                Toast.makeText(getApplicationContext(), "Action was UP ", Toast.LENGTH_SHORT).show();
-                return true;
-//            case (MotionEvent.ACTION_CANCEL) :
-//                Toast.makeText(getApplicationContext(), "Action was CANCEL ", Toast.LENGTH_SHORT).show();
-//                return true;
-//            case (MotionEvent.ACTION_OUTSIDE) :
-//                Log.d("DEBUG_TAG","Movement occurred outside bounds " +
-//                        "of current screen element");
-//                return true;
+                x2 = event.getX();
+                y2 = event.getY();
+                dy = y2-y1;
+                dx = x2-x1;
+                if (Math.abs(dy) > Math.abs(dx)
+                        && Math.abs(dy) > SWIPE_THRESHOLD) {
+                    if(dy>0) {adapter.insert(0, new ListData("", ""));}}
+                break;
             default :
                 return super.onTouchEvent(event);
         }
+        return true;
     }
 }
