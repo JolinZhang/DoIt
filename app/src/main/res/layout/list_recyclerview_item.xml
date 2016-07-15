@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.daimajia.swipe.SwipeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_item"
     android:layout_width="match_parent"
@@ -7,30 +7,65 @@
     android:layout_marginBottom="1dp"
     android:background="@color/mainItemBackgroundColor"
     >
-    <TextView
-        android:id="@+id/list_item_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/mainItemTextColor"
-        android:text="List"/>
-    <View
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/mainItemTextColor" />
-    <TextView
-        android:id="@+id/list_item_count"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:layout_gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:textColor="@color/mainItemTextColor"
-        android:text="0"/>
-</LinearLayout >
+    <!-- Bottom View from left to right  -->
+    <RelativeLayout
+        android:id="@+id/swipe_clear"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:tag="back" >
+        <Button
+        android:id="@+id/swipe_button_clear"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ic_clear_red" />
+        </RelativeLayout>
+    <!-- Bottom View from right to left  -->
+    <RelativeLayout
+        android:id="@+id/swipe_done"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:tag="back" >
+        <Button
+        android:id="@+id/swipe_button_done"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ic_done_green" />
+    </RelativeLayout>
+    <!-- Bottom View -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:tag="front"
+        >
+        <TextView
+            android:id="@+id/list_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/mainItemTextColor"
+            android:text="List"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/mainItemTextColor" />
+        <TextView
+            android:id="@+id/list_item_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:textColor="@color/mainItemTextColor"
+            android:text="0"/>
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout >
 
 

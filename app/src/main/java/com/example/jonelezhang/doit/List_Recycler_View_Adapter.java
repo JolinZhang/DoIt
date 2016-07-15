@@ -5,6 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +16,7 @@ import java.util.List;
 /**
  * Created by Jonelezhang on 7/11/16.
  */
-public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_Holder> {
+public class List_Recycler_View_Adapter extends RecyclerSwipeAdapter<List_View_Holder> {
     List<ListData> list = Collections.emptyList();
     Context context;
 
@@ -20,7 +24,6 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         this.list = list;
         this.context = context;
     }
-
 
     @Override
     public List_View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,6 +38,47 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
         holder.title.setText(list.get(position).title);
         holder.count.setText(list.get(position).count);
+
+        holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+        // Drag From Left
+        holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.swipeLayout.findViewById(R.id.swipe_clear));
+        // Drag From Right
+        holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.swipe_done));
+
+        // Handling different events when swiping
+        holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+            @Override
+            public void onClose(SwipeLayout layout) {
+                //when the SurfaceView totally cover the BottomView.
+            }
+
+            @Override
+            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+                //you are swiping.
+            }
+
+            @Override
+            public void onStartOpen(SwipeLayout layout) {
+
+            }
+
+            @Override
+            public void onOpen(SwipeLayout layout) {
+                //when the BottomView totally show.
+            }
+
+            @Override
+            public void onStartClose(SwipeLayout layout) {
+
+            }
+
+            @Override
+            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+                //when user's hand released.
+            }
+        });
+
+
 
     }
 
@@ -63,4 +107,10 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         notifyItemRemoved(position);
 
     }
+
+    @Override
+    public int getSwipeLayoutResourceId(int i) {
+        return 0;
+    }
+
 }
