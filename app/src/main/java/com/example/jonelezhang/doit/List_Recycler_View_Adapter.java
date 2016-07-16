@@ -1,10 +1,13 @@
 package com.example.jonelezhang.doit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -33,9 +36,13 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
 
     @Override
     public void onBindViewHolder(List_View_Holder holder, int position) {
+        //get device's width and height, set recyclerview list item's height
+        holder.listItem.getLayoutParams().width = ((List_Menu) context).width;
+
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
         holder.title.setText(list.get(position).title);
         holder.count.setText(list.get(position).count);
+
 
     }
 
