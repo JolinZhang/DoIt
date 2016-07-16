@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,20 +48,5 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    // Insert a new item to the RecyclerView on a predefined position
-    public void insert(int position, ListData listData){
-        list.add(position, listData);
-        notifyItemInserted(position);
-
-    }
-
-    // Remove a RecyclerView item containing a specified Data object
-    public void remove(ListData listData){
-        int position = list.indexOf(listData);
-        list.remove(position);
-        notifyItemRemoved(position);
-
     }
 }

@@ -16,15 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class List_Menu extends AppCompatActivity implements OnTouchListener {
+public class List_Menu extends AppCompatActivity{
     List_Recycler_View_Adapter adapter;
-    //variables in on touch event
-    private float x1;
-    private float y1;
-    private float x2;
-    private float y2;
-    private float dy;
-    private float dx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +30,6 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         adapter = new List_Recycler_View_Adapter(data,getApplication());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setOnTouchListener(this);
     }
 
     //initial listData
@@ -68,32 +60,6 @@ public class List_Menu extends AppCompatActivity implements OnTouchListener {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int action = MotionEventCompat.getActionMasked(event);
-        final int SWIPE_THRESHOLD = 2;
-
-        switch(action) {
-            case (MotionEvent.ACTION_DOWN) :
-                x1 = event.getX();
-                y1 = event.getY();
-                break;
-            case (MotionEvent.ACTION_UP) :
-                x2 = event.getX();
-                y2 = event.getY();
-                dy = y2-y1;
-                dx = x2-x1;
-                if (Math.abs(dy) > Math.abs(dx)
-                        && Math.abs(dy) > SWIPE_THRESHOLD) {
-                    if(dy>0) {adapter.insert(0, new ListData("", ""));}}
-                break;
-            default :
-                return super.onTouchEvent(event);
-        }
-        return true;
     }
 }

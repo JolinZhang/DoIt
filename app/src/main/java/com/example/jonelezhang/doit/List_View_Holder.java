@@ -15,7 +15,4 @@ public class List_View_Holder extends RecyclerView.ViewHolder {
         title = (TextView) itemView.findViewById(R.id.list_item_title);
         count = (TextView) itemView.findViewById(R.id.list_item_count);
     }
-
-
-
 }
