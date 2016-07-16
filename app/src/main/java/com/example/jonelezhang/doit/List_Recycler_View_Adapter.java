@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,7 +45,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                         marginLayoutParams.topMargin,
                         marginLayoutParams.rightMargin,
                         marginLayoutParams.bottomMargin);
-                        holder.swipe.requestLayout();
+                holder.swipe.requestLayout();
                 //let stop at position at middle list item
                 holder.swipe.scrollTo((int) holder.listItem.getX(), 0);
             }
@@ -60,7 +61,51 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
         holder.title.setText(list.get(position).title);
         holder.count.setText(list.get(position).count);
+        // get touch event on scroll view
+        holder.swipe.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int action = event.getAction();
+
+
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if( holder.swipe.getScrollX() <= holder.listItem.getX()/2) {
+                            holder.swipe.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.swipe.smoothScrollTo(0, 0);
+                                }
+                            });
+
+                        }
+                        else if( holder.swipe.getScrollX() > holder.listItem.getX()/2 &&  holder.swipe.getScrollX()<holder.listItem.getX()*3/2) {
+                            holder.swipe.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.swipe.smoothScrollTo((int) holder.listItem.getX(), 0);
+                                }
+                            });
+
+                        }
+                        else if(holder.swipe.getScrollX()>holder.listItem.getX()*3/2){
+                            holder.swipe.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    holder.swipe.smoothScrollTo((int)holder.listItem.getX()*2,0);
+                                }
+                            });
+                        }
+                }
+                return false;
+            }
+        });
     }
+
+
+
 
     @Override
     public int getItemCount() {
