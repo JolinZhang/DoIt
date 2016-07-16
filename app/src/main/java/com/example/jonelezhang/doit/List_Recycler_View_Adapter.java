@@ -2,9 +2,11 @@ package com.example.jonelezhang.doit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -30,20 +32,34 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     public List_View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         //Inflate the layout, initialize the View Holder
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_recyclerview_item,parent,false);
-        List_View_Holder holder = new List_View_Holder(v);
+        final List_View_Holder holder = new List_View_Holder(v);
+        //scroll view set position
+        holder.swipe.post(new Runnable() {
+            @Override
+            public void run() {
+                //let ic_clear_red show
+                ViewGroup.MarginLayoutParams marginLayoutParams =
+                        (ViewGroup.MarginLayoutParams) holder.swipe.getLayoutParams();
+                marginLayoutParams.setMargins(0,
+                        marginLayoutParams.topMargin,
+                        marginLayoutParams.rightMargin,
+                        marginLayoutParams.bottomMargin);
+                        holder.swipe.requestLayout();
+                //let stop at position at middle list item
+                holder.swipe.scrollTo((int) holder.listItem.getX(), 0);
+            }
+        });
+
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(List_View_Holder holder, int position) {
+    public void onBindViewHolder(final List_View_Holder holder, int position) {
         //get device's width and height, set recyclerview list item's height
         holder.listItem.getLayoutParams().width = ((List_Menu) context).width;
-
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
         holder.title.setText(list.get(position).title);
         holder.count.setText(list.get(position).count);
-
-
     }
 
     @Override
