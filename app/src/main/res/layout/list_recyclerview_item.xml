@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_swipe"
     android:layout_width="fill_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp"
     android:layout_marginBottom="1dp"
     android:scrollbars="none"
     android:layout_marginLeft="-48dp">
@@ -21,11 +22,12 @@
         <LinearLayout
             android:id="@+id/list_item_list"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
             android:layout_toEndOf="@+id/swipe_button_clear"
             android:background="@color/mainItemBackgroundColor"
             >
-            <TextView
+            <EditText
                 android:id="@+id/list_item_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
