@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -114,6 +116,25 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                 return false;
             }
         });
+//        // edit text add Text ChangedListener
+//        holder.title.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.toString().equals(null)) {
+//                    remove(0);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -131,7 +152,11 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     public void insert(int position, ListData listData){
         list.add(position, listData);
         notifyItemInserted(position);
-
+    }
+    // remove item in recycler view
+    public void remove(int position){
+        list.remove(position);
+        notifyItemRemoved(position);
     }
 
 
