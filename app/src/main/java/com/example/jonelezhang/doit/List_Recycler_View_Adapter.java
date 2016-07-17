@@ -22,6 +22,9 @@ import java.util.List;
 public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_Holder> {
     List<ListData> list = Collections.emptyList();
     Context context;
+    //tag for if allow to move scroll view
+    public boolean MODE_ALLOWED = true;
+    public int LAST_POSITION ;
 
     public List_Recycler_View_Adapter(List<ListData> list, Context context){
         this.list = list;
@@ -64,14 +67,17 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         // get touch event on scroll view
         holder.swipe.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(final View v, MotionEvent event) {
                 final int action = event.getAction();
-
-
+                // close the open item, when click on other item
+                if(MODE_ALLOWED == false){
+                    ((List_Menu) context).resetItem(LAST_POSITION, (int) holder.listItem.getX());
+                }
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_UP:
+                        //show left clear button
                         if( holder.swipe.getScrollX() <= holder.listItem.getX()/2) {
                             holder.swipe.post(new Runnable() {
                                 @Override
@@ -79,8 +85,10 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                                     holder.swipe.smoothScrollTo(0, 0);
                                 }
                             });
-
+                            MODE_ALLOWED =  false;
+                            LAST_POSITION = holder.getLayoutPosition();
                         }
+                        //call back into middle
                         else if( holder.swipe.getScrollX() > holder.listItem.getX()/2 &&  holder.swipe.getScrollX()<holder.listItem.getX()*3/2) {
                             holder.swipe.post(new Runnable() {
                                 @Override
@@ -88,8 +96,9 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                                     holder.swipe.smoothScrollTo((int) holder.listItem.getX(), 0);
                                 }
                             });
-
+                            MODE_ALLOWED = true;
                         }
+                        //show right done button
                         else if(holder.swipe.getScrollX()>holder.listItem.getX()*3/2){
                             holder.swipe.post(new Runnable() {
                                 @Override
@@ -97,15 +106,15 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                                     holder.swipe.smoothScrollTo((int)holder.listItem.getX()*2,0);
                                 }
                             });
+                            MODE_ALLOWED = false;
+                            LAST_POSITION = holder.getAdapterPosition();
                         }
+                        break;
                 }
                 return false;
             }
         });
     }
-
-
-
 
     @Override
     public int getItemCount() {
@@ -117,4 +126,5 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
+
 }

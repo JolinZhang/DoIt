@@ -42,8 +42,13 @@ public class List_Menu extends AppCompatActivity{
         adapter = new List_Recycler_View_Adapter(data,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
+    //animation for reset recyclerView item
+    public void resetItem(int position, int resetItemPosition) {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
+        ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(position)).swipe.scrollTo(resetItemPosition,0);
+    }
+
     //initial listData
     public List<ListData> fill_with_data() {
 
