@@ -42,11 +42,42 @@ public class List_Menu extends AppCompatActivity{
         adapter = new List_Recycler_View_Adapter(data,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //set recycler view touch listener swipe down to add item
+        recyclerView.setOnTouchListener(new OnTouchListener() {
+            float point_x1;
+            float point_y1;
+            float point_x2;
+            float point_y2;
+            float distancesX;
+            float distancesY;
+            final int SWIPE_THRESHOLD = 1;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int  action =  event.getAction();
+                switch(action){
+                    case MotionEvent.ACTION_DOWN:
+                        point_x1 = event.getX();
+                        point_y1 = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        point_x2 = event.getX();
+                        point_y2 = event.getY();
+                        distancesX = point_x2 - point_x1;
+                        distancesY = point_y2 - point_y1;
+                        if(distancesY> SWIPE_THRESHOLD && distancesY >distancesX){
+                             adapter.insert(0, new ListData("", ""));
+                        }
+                }
+                return false;
+            }
+        });
     }
+
     //animation for reset recyclerView item
     public void resetItem(int position, int resetItemPosition) {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
-        ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(position)).swipe.scrollTo(resetItemPosition,0);
+        ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(position)).swipe.smoothScrollTo(resetItemPosition, 0);
     }
 
     //initial listData

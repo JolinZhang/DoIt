@@ -127,4 +127,12 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    // insert item in recycler view
+    public void insert(int position, ListData listData){
+        list.add(position, listData);
+        notifyItemInserted(position);
+
+    }
+
+
 }
