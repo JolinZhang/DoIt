@@ -77,6 +77,7 @@ public class List_Menu extends AppCompatActivity{
 
     //animation for reset recyclerView item
     public void resetItem(int position, int resetItemPosition) {
+        
         ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(position)).swipe.smoothScrollTo(resetItemPosition, 0);
     }
 

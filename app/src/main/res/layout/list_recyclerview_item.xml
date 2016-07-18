@@ -7,24 +7,29 @@
     android:minHeight="50dp"
     android:layout_marginBottom="1dp"
     android:scrollbars="none"
-    android:layout_marginLeft="-48dp">
+    android:layout_marginLeft="-300dp">
     <RelativeLayout
         android:id="@+id/list_relative"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent">
-        <Button
-            android:id="@+id/swipe_button_clear"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/ic_done_green" />
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="fill_parent"
+            android:id = "@+id/swipe_button1">
+            <Button
+                android:id="@+id/swipe_button_done"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_done_green" />
+            </RelativeLayout>
         <LinearLayout
             android:id="@+id/list_item_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:minHeight="50dp"
-            android:layout_toEndOf="@+id/swipe_button_clear"
+            android:layout_toEndOf="@+id/swipe_button1"
             android:background="@color/mainItemBackgroundColor"
             >
             <LinearLayout
@@ -57,15 +62,20 @@
                 android:textColor="@color/mainItemTextColor"
                 android:text="0"/>
         </LinearLayout>
-        <Button
-            android:id="@+id/swipe_button_done"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <RelativeLayout
+            android:layout_height="fill_parent"
+            android:layout_width="300dp"
             android:layout_toEndOf="@+id/list_item_list"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/ic_clear_red"
-             />
+            android:id = "@+id/swipe_button2">
+            <Button
+                android:id="@+id/swipe_button_clear"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/ic_clear_red"
+                 />
+        </RelativeLayout>
     </RelativeLayout>
 </HorizontalScrollView>
 

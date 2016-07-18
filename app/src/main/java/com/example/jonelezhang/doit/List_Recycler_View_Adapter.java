@@ -39,6 +39,12 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         //Inflate the layout, initialize the View Holder
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_recyclerview_item,parent,false);
         final List_View_Holder holder = new List_View_Holder(v);
+
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(final List_View_Holder holder, int position) {
         //scroll view set position
         holder.swipe.post(new Runnable() {
             @Override
@@ -55,12 +61,6 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                 holder.swipe.scrollTo((int) holder.listItem.getX(), 0);
             }
         });
-
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(final List_View_Holder holder, int position) {
         //get device's width and height, set recyclerview list item's height
         holder.listItem.getLayoutParams().width = ((List_Menu) context).width;
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
@@ -71,27 +71,30 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
                 final int action = event.getAction();
-                // close the open item, when click on other item
-                if (MODE_ALLOWED == false) {
+                //close the open item, when click on other item not itself
+                if (MODE_ALLOWED == false && LAST_POSITION != holder.getAdapterPosition()) {
                     ((List_Menu) context).resetItem(LAST_POSITION, (int) holder.listItem.getX());
                 }
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_UP:
-                        //show left clear button
-                        if (holder.swipe.getScrollX() <= holder.listItem.getX() / 2) {
+                        // done
+                        if(holder.swipe.getScrollX()< (holder.done.getX() -50)){
+                        }
+                        //show left done button
+                        else if (holder.swipe.getScrollX() <= (holder.done.getX() +(holder.listItem.getX()- holder.done.getX()) /2) &&  holder.swipe.getScrollX() >= (holder.done.getX() -50)) {
                             holder.swipe.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    holder.swipe.smoothScrollTo(0, 0);
+                                    holder.swipe.smoothScrollTo((int)holder.done.getX(), 0);
                                 }
                             });
                             MODE_ALLOWED = false;
                             LAST_POSITION = holder.getLayoutPosition();
                         }
                         //call back into middle
-                        else if (holder.swipe.getScrollX() > holder.listItem.getX() / 2 && holder.swipe.getScrollX() < holder.listItem.getX() * 3 / 2) {
+                        else if (holder.swipe.getScrollX() > (holder.done.getX() + (holder.listItem.getX()- holder.done.getX())/ 2) && holder.swipe.getScrollX() < (holder.done.getX()+(holder.listItem.getX()- holder.done.getX()) * 3/2)) {
                             holder.swipe.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -100,16 +103,20 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                             });
                             MODE_ALLOWED = true;
                         }
-                        //show right done button
-                        else if (holder.swipe.getScrollX() > holder.listItem.getX() * 3 / 2) {
+                        //show right clear button
+                        else if (holder.swipe.getScrollX() > (holder.done.getX() + (holder.listItem.getX()- holder.done.getX()) * 3/2) && holder.swipe.getScrollX() <= (holder.done.getX() +2* (holder.listItem.getX()- holder.done.getX())+50)){
                             holder.swipe.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    holder.swipe.smoothScrollTo((int) holder.listItem.getX() * 2, 0);
+                                    holder.swipe.smoothScrollTo((int)(holder.listItem.getX()+(holder.listItem.getX()- holder.done.getX())), 0);
                                 }
                             });
                             MODE_ALLOWED = false;
                             LAST_POSITION = holder.getAdapterPosition();
+                        }
+                        //delete
+                        else if(holder.swipe.getScrollX() > (holder.done.getX() +2* (holder.listItem.getX()- holder.done.getX())+50)){
+                            remove(holder.getAdapterPosition());
                         }
                         break;
                 }
@@ -117,27 +124,6 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
             }
         });
 
-//        // edit text add Text ChangedListener
-//        holder.title.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (s.toString().equals(null)) {
-//                    remove(0);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (s.toString().equals(null)) {
-//                    remove(0);
-//                }
-//            }
-//        });
     }
 
     @Override
