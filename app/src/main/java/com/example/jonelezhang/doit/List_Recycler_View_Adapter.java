@@ -26,7 +26,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
     Context context;
     //tag for if allow to move scroll view
     public boolean MODE_ALLOWED = true;
-    public int LAST_POSITION ;
+    public int LAST_POSITION;
 
     public List_Recycler_View_Adapter(List<ListData> list, Context context){
         this.list = list;
@@ -39,12 +39,6 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         //Inflate the layout, initialize the View Holder
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_recyclerview_item,parent,false);
         final List_View_Holder holder = new List_View_Holder(v);
-
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(final List_View_Holder holder, int position) {
         //scroll view set position
         holder.swipe.post(new Runnable() {
             @Override
@@ -61,6 +55,11 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                 holder.swipe.scrollTo((int) holder.listItem.getX(), 0);
             }
         });
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(final List_View_Holder holder, int position) {
         //get device's width and height, set recyclerview list item's height
         holder.listItem.getLayoutParams().width = ((List_Menu) context).width;
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
@@ -74,6 +73,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                 //close the open item, when click on other item not itself
                 if (MODE_ALLOWED == false && LAST_POSITION != holder.getAdapterPosition()) {
                     ((List_Menu) context).resetItem(LAST_POSITION, (int) holder.listItem.getX());
+                    MODE_ALLOWED = true;
                 }
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
@@ -81,6 +81,8 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                     case MotionEvent.ACTION_UP:
                         // done
                         if(holder.swipe.getScrollX()< (holder.done.getX() -50)){
+                            remove(holder.getAdapterPosition());
+                            MODE_ALLOWED = true;
                         }
                         //show left done button
                         else if (holder.swipe.getScrollX() <= (holder.done.getX() +(holder.listItem.getX()- holder.done.getX()) /2) &&  holder.swipe.getScrollX() >= (holder.done.getX() -50)) {
@@ -117,6 +119,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                         //delete
                         else if(holder.swipe.getScrollX() > (holder.done.getX() +2* (holder.listItem.getX()- holder.done.getX())+50)){
                             remove(holder.getAdapterPosition());
+                            MODE_ALLOWED = true;
                         }
                         break;
                 }

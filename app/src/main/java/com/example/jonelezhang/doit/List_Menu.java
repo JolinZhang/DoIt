@@ -67,6 +67,11 @@ public class List_Menu extends AppCompatActivity{
                         distancesX = point_x2 - point_x1;
                         distancesY = point_y2 - point_y1;
                         if(distancesY> SWIPE_THRESHOLD && distancesY >distancesX){
+                            // check if any other item has been swift
+                            if( adapter.MODE_ALLOWED == false ){
+                                resetItem(adapter.LAST_POSITION, (int) ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(adapter.LAST_POSITION)).listItem.getX());
+                            }
+                            //insert new item on the position 0
                              adapter.insert(0, new ListData("", ""));
                         }
                 }
@@ -77,13 +82,11 @@ public class List_Menu extends AppCompatActivity{
 
     //animation for reset recyclerView item
     public void resetItem(int position, int resetItemPosition) {
-        
         ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(position)).swipe.smoothScrollTo(resetItemPosition, 0);
     }
 
     //initial listData
     public List<ListData> fill_with_data() {
-
         List<ListData> data = new ArrayList<>();
         data.add(new ListData("food","0"));
         data.add(new ListData("fruit","1"));
