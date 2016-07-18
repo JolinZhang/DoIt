@@ -12,7 +12,7 @@ import android.widget.TextView;
  * Created by Jonelezhang on 7/11/16.
  */
 public class List_View_Holder extends RecyclerView.ViewHolder {
-    TextView title;
+    EditText title;
     TextView count;
     LinearLayout listItem;
     RelativeLayout list;
@@ -22,7 +22,7 @@ public class List_View_Holder extends RecyclerView.ViewHolder {
         swipe = (HorizontalScrollView) itemView.findViewById(R.id.list_swipe);
         list = (RelativeLayout) itemView.findViewById(R.id.list_relative);
         listItem = (LinearLayout) itemView.findViewById(R.id.list_item_list);
-        title = (TextView) itemView.findViewById(R.id.list_item_title);
+        title = (EditText) itemView.findViewById(R.id.list_item_title);
         count = (TextView) itemView.findViewById(R.id.list_item_count);
     }
 }

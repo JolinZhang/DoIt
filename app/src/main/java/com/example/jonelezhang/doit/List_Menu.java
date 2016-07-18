@@ -26,6 +26,7 @@ public class List_Menu extends AppCompatActivity{
     List_Recycler_View_Adapter adapter;
     int height;
     int width;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class List_Menu extends AppCompatActivity{
         width = displaymetrics.widthPixels;
 
         List<ListData> data = fill_with_data();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
         //get instance of list adapter
         adapter = new List_Recycler_View_Adapter(data,this);
         recyclerView.setAdapter(adapter);
@@ -76,7 +77,6 @@ public class List_Menu extends AppCompatActivity{
 
     //animation for reset recyclerView item
     public void resetItem(int position, int resetItemPosition) {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_recyclerView);
         ((List_View_Holder) recyclerView.findViewHolderForAdapterPosition(position)).swipe.smoothScrollTo(resetItemPosition, 0);
     }
 

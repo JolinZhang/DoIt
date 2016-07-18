@@ -72,7 +72,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
             public boolean onTouch(final View v, MotionEvent event) {
                 final int action = event.getAction();
                 // close the open item, when click on other item
-                if(MODE_ALLOWED == false){
+                if (MODE_ALLOWED == false) {
                     ((List_Menu) context).resetItem(LAST_POSITION, (int) holder.listItem.getX());
                 }
                 switch (action) {
@@ -80,18 +80,18 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                         break;
                     case MotionEvent.ACTION_UP:
                         //show left clear button
-                        if( holder.swipe.getScrollX() <= holder.listItem.getX()/2) {
+                        if (holder.swipe.getScrollX() <= holder.listItem.getX() / 2) {
                             holder.swipe.post(new Runnable() {
                                 @Override
                                 public void run() {
                                     holder.swipe.smoothScrollTo(0, 0);
                                 }
                             });
-                            MODE_ALLOWED =  false;
+                            MODE_ALLOWED = false;
                             LAST_POSITION = holder.getLayoutPosition();
                         }
                         //call back into middle
-                        else if( holder.swipe.getScrollX() > holder.listItem.getX()/2 &&  holder.swipe.getScrollX()<holder.listItem.getX()*3/2) {
+                        else if (holder.swipe.getScrollX() > holder.listItem.getX() / 2 && holder.swipe.getScrollX() < holder.listItem.getX() * 3 / 2) {
                             holder.swipe.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -101,11 +101,11 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                             MODE_ALLOWED = true;
                         }
                         //show right done button
-                        else if(holder.swipe.getScrollX()>holder.listItem.getX()*3/2){
+                        else if (holder.swipe.getScrollX() > holder.listItem.getX() * 3 / 2) {
                             holder.swipe.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    holder.swipe.smoothScrollTo((int)holder.listItem.getX()*2,0);
+                                    holder.swipe.smoothScrollTo((int) holder.listItem.getX() * 2, 0);
                                 }
                             });
                             MODE_ALLOWED = false;
@@ -116,6 +116,7 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
                 return false;
             }
         });
+
 //        // edit text add Text ChangedListener
 //        holder.title.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -125,7 +126,9 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
 //
 //            @Override
 //            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
+//                if (s.toString().equals(null)) {
+//                    remove(0);
+//                }
 //            }
 //
 //            @Override
