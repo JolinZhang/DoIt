@@ -65,6 +65,13 @@ public class List_Recycler_View_Adapter extends RecyclerView.Adapter<List_View_H
         //Use the provided View Holder on the onCreateViewHolder method to populate the current row on the RecyclerView
         holder.title.setText(list.get(position).title);
         holder.count.setText(list.get(position).count);
+        holder.swipe.post(new Runnable() {
+            @Override
+            public void run() {
+                holder.swipe.scrollTo((int) holder.listItem.getX(), 0);
+            }
+        });
+
         // get touch event on scroll view
         holder.swipe.setOnTouchListener(new View.OnTouchListener() {
             @Override
